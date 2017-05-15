@@ -46,15 +46,12 @@ def processRequest(req):
         yql_url = baseurl + urlencode({'q': yql_query}) + "&format=json"
         result = urlopen(yql_url).read()
         data = json.loads(result)
-        singleShare = Share('GOOG')
-        speech = singleShare.get_price()
         res = makeWebhookResult(data)
         return res
     elif req.get("result").get("action") == "sharePriceAction":
         result = req.get("result")
         parameters = result.get("parameters")
-        singleShare = Share(parameters.get("enterprise-name"))
-        speech = singleShare.get_price()
+        speech ="HI"
         return {
             "speech": speech,
             "displayText": speech,
