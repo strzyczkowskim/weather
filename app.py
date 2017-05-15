@@ -6,7 +6,9 @@ install_aliases()
 
 from urllib.parse import urlparse, urlencode
 from urllib.request import urlopen, Request
+from yahoo_finance import Share, Currency
 from urllib.error import HTTPError
+from SharePrice import SharePrice
 
 import json
 import os
@@ -36,17 +38,29 @@ def webhook():
 
 
 def processRequest(req):
-    if req.get("result").get("action") != "yahooWeatherForecast":
+    if req.get("result").get("action") == "yahooWeatherForecast":
+        baseurl = "https://query.yahooapis.com/v1/public/yql?"
+        yql_query = makeYqlQuery(req)
+        if yql_query is None:
+            return {}
+        yql_url = baseurl + urlencode({'q': yql_query}) + "&format=json"
+        result = urlopen(yql_url).read()
+        data = json.loads(result)
+        res = makeWebhookResult(data)
+        return res
+    elif req.get("result").get("action") == "sharePriceAction":
+        result = req.get("result")
+        parameters = result.get("parameters")
+        singleShare = SharePrice(parameters.get("enterprise-name"))
+        speech = singleShare.showAnswer()
+        return {
+            "speech": speech,
+            "displayText": speech,
+            # "data": data,
+            # "contextOut": [],
+            "source": "ai-project"}
+    else:
         return {}
-    baseurl = "https://query.yahooapis.com/v1/public/yql?"
-    yql_query = makeYqlQuery(req)
-    if yql_query is None:
-        return {}
-    yql_url = baseurl + urlencode({'q': yql_query}) + "&format=json"
-    result = urlopen(yql_url).read()
-    data = json.loads(result)
-    res = makeWebhookResult(data)
-    return res
 
 
 def makeYqlQuery(req):
@@ -101,7 +115,17 @@ def makeWebhookResult(data):
 
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
-
     print("Starting app on port %d" % port)
-
     app.run(debug=False, port=port, host='0.0.0.0')
+#1 define intents fror share:
+#current price
+#open
+#close
+#interval
+#some growth
+#ebitda
+#cap_value
+#2 define currency
+#get exchange rate: ask, bid
+#calculate how much money can you get for value in another currency
+#
