@@ -50,14 +50,15 @@ def processRequest(req):
     elif req.get("result").get("action") == "sharePriceAction":
         result = req.get("result")
         parameters = result.get("parameters")
-        singleShare = SharePrice(parameters.get("enterprise-name"))
-        speech = singleShare.showAnswer()
+        singleshare = SharePrice(parameters.get("enterprise-name"))
+        speech = "hello"
         return {
             "speech": speech,
             "displayText": speech,
             # "data": data,
             # "contextOut": [],
-            "source": "ai-project"}
+            "source": "ai-project"
+        }
     else:
         return {}
 
