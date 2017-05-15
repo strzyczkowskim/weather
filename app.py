@@ -6,7 +6,6 @@ install_aliases()
 
 from urllib.parse import urlparse, urlencode
 from urllib.request import urlopen, Request
-from yahoo_finance import Share, Currency
 from urllib.error import HTTPError
 from SharePrice import SharePrice
 
