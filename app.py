@@ -52,6 +52,7 @@ def processRequest(req):
         result = req.get("result")
         parameters = result.get("parameters")
         speech ="HI"
+        s = Share('GOOG')
         return {
             "speech": speech,
             "displayText": speech,
