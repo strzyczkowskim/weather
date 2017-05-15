@@ -99,7 +99,7 @@ def makeWebhookResult(data):
     # print(json.dumps(item, indent=4))
     s = SharePrice('GOOG');
     speech = "Today in " + location.get('city') + ": " + condition.get('text') + \
-             ", the temperature is " + s.showAnswer() + " " + units.get('temperature')
+             ", the temperature is " + condition.get('temp') + " " + units.get('temperature')
 
     print("Response:")
     print(speech)
