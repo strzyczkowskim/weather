@@ -6,6 +6,7 @@ install_aliases()
 
 from urllib.parse import urlparse, urlencode
 from urllib.request import urlopen, Request
+from yahoo_finance import Share,Currency
 from urllib.error import HTTPError
 from SharePrice import SharePrice
 
@@ -45,13 +46,15 @@ def processRequest(req):
         yql_url = baseurl + urlencode({'q': yql_query}) + "&format=json"
         result = urlopen(yql_url).read()
         data = json.loads(result)
+        singleShare = Share('GOOG')
+        speech = singleShare.get_price()
         res = makeWebhookResult(data)
         return res
     elif req.get("result").get("action") == "sharePriceAction":
         result = req.get("result")
         parameters = result.get("parameters")
-        singleshare = SharePrice(parameters.get("enterprise-name"))
-        speech = "hello"
+        singleShare = Share(parameters.get("enterprise-name"))
+        speech = singleShare.get_price()
         return {
             "speech": speech,
             "displayText": speech,
