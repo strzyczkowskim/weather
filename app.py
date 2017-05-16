@@ -89,7 +89,7 @@ def processRequest(req):
         enterprise2 = parameters.get("enterprise-name2")
         speech = enterprise1 + " market capitalization: " + ystockquote.get_market_cap(enterprise1)
         #+ " ebitda: " + ystockquote.get_ebitda(parameters.get(enterprise1)) + " volume: " + ystockquote.get_volume(enterprise1)
-        #+ " " + enterprise2 + " market capitalization: " + ystockquote.get_market_cap(enterprise2)
+        + " " + enterprise2 + " market capitalization: " + ystockquote.get_market_cap(enterprise2)
         #+ " ebitda: " + ystockquote.get_ebitda(parameters.get(enterprise2)) + " volume: " + ystockquote.get_volume(enterprise2)
         return {
             "speech": speech,
