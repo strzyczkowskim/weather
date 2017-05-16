@@ -51,9 +51,30 @@ def processRequest(req):
     elif req.get("result").get("action") == "sharePriceAction":
         result = req.get("result")
         parameters = result.get("parameters")
-        #singleShare = SharePrice(parameters.get("enterprise-name"))
-        speech = ystockquote.get_today_open(parameters.get("enterprise-name"))
+        speech = "This is a current price: " + ystockquote.get_today_open(parameters.get("enterprise-name"))
 
+        return {
+            "speech": speech,
+            "displayText": speech,
+            # "data": data,
+            # "contextOut": [],
+            "source": "ai-project"
+        }
+    elif req.get("result").get("action") == "getEbitdaAction":
+        result = req.get("result")
+        parameters = result.get("parameters")
+        speech = "This is a ebitda of enterprise: " + ystockquote.get_ebitda(parameters.get("enterprise-name"))
+        return {
+            "speech": speech,
+            "displayText": speech,
+            # "data": data,
+            # "contextOut": [],
+            "source": "ai-project"
+        }
+    elif req.get("result").get("action") == "getMarketCapAction":
+        result = req.get("result")
+        parameters = result.get("parameters")
+        speech = "This is a market capitalization of enterprise: " + ystockquote.get_market_cap(parameters.get("enterprise-name"))
         return {
             "speech": speech,
             "displayText": speech,
@@ -110,7 +131,7 @@ def makeWebhookResult(data):
         "displayText": speech,
         # "data": data,
         # "contextOut": [],
-        "source": "apiai-weather-webhook-sample"
+        "source": "ai-project"
     }
 
 
