@@ -93,13 +93,12 @@ def processRequest(req):
         volume2 = ystockquote.get_volume(enterprise2)
         ebitda1 = ystockquote.get_ebitda(enterprise1)
         ebitda2 = ystockquote.get_ebitda(enterprise2)
-        speech1 = enterprise1 + " " + enterprise2 + " market capitalization: " + marketCap1 + " " + marketCap2
-        #+ " ebitda: " + ystockquote.get_ebitda(parameters.get(enterprise1)) + " volume: " + ystockquote.get_volume(enterprise1)
-        #+ ' ' + enterprise2 + " market capitalization: " + ystockquote.get_market_cap(enterprise2)
-        #+ " ebitda: " + ystockquote.get_ebitda(parameters.get(enterprise2)) + " volume: " + ystockquote.get_volume(enterprise2)
+        speech = enterprise1 + " " + enterprise2 + " \n market capitalization: " + marketCap1 + " " + marketCap2
+        + " \n ebitda: " + volume1 + " " + volume2
+        + " \n market capitalization: " + ebitda1 + " " + ebitda2
         return {
-            "speech": speech1,
-            "displayText": speech1,
+            "speech": speech,
+            "displayText": speech,
             # "data": data,
             # "contextOut": [],
             "source": "ai-project"
