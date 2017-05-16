@@ -94,8 +94,8 @@ def processRequest(req):
         ebitda1 = ystockquote.get_ebitda(enterprise1)
         ebitda2 = ystockquote.get_ebitda(enterprise2)
         speech = enterprise1 + " " + enterprise2 + " \n market capitalization: " + marketCap1 + " " + marketCap2
-        + " \n ebitda: " + str(volume1) + " " + str(volume2)
-        + " \n market capitalization: " + str(ebitda1) + " " + str(ebitda2)
+        #+ " \n ebitda: " + str(volume1) + " " + str(volume2)
+        #+ " \n market capitalization: " + str(ebitda1) + " " + str(ebitda2)
         return {
             "speech": speech,
             "displayText": speech,
