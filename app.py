@@ -12,6 +12,7 @@ from SharePrice import SharePrice
 
 import json
 import os
+import ystockquote
 
 from flask import Flask
 from flask import request
@@ -51,8 +52,7 @@ def processRequest(req):
     elif req.get("result").get("action") == "sharePriceAction":
         result = req.get("result")
         parameters = result.get("parameters")
-        speech ="HI"
-        s = Share('GOOG')
+        speech = ystockquote.get_today_open('GOOGL')
         return {
             "speech": speech,
             "displayText": speech,
