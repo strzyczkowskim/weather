@@ -53,6 +53,7 @@ def processRequest(req):
         parameters = result.get("parameters")
         singleShare = SharePrice(parameters.get("enterprise-name"))
         speech = singleShare.showAnswer()
+
         return {
             "speech": speech,
             "displayText": speech,
