@@ -88,9 +88,9 @@ def processRequest(req):
         enterprise1 = parameters.get("enterprise-name1")
         enterprise2 = parameters.get("enterprise-name2")
         speech = enterprise1 + " market capitalization: " + ystockquote.get_market_cap(enterprise1)
-        + " ebitda: " + ystockquote.get_ebitda(parameters.get(enterprise1)) + " volume: " + ystockquote.get_volume(enterprise1)
-        + " " + enterprise2 + " market capitalization: " + ystockquote.get_market_cap(enterprise2)
-        + " ebitda: " + ystockquote.get_ebitda(parameters.get(enterprise2)) + " volume: " + ystockquote.get_volume(enterprise2)
+        #+ " ebitda: " + ystockquote.get_ebitda(parameters.get(enterprise1)) + " volume: " + ystockquote.get_volume(enterprise1)
+        #+ " " + enterprise2 + " market capitalization: " + ystockquote.get_market_cap(enterprise2)
+        #+ " ebitda: " + ystockquote.get_ebitda(parameters.get(enterprise2)) + " volume: " + ystockquote.get_volume(enterprise2)
         return {
             "speech": speech,
             "displayText": speech,
@@ -155,15 +155,3 @@ if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
     print("Starting app on port %d" % port)
     app.run(debug=False, port=port, host='0.0.0.0')
-#1 define intents fror share:
-#current price
-#open
-#close
-#interval
-#some growth
-#ebitda
-#cap_value
-#2 define currency
-#get exchange rate: ask, bid
-#calculate how much money can you get for value in another currency
-#
