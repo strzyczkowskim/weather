@@ -52,7 +52,6 @@ def processRequest(req):
         result = req.get("result")
         parameters = result.get("parameters")
         speech = "This is a current price: " + ystockquote.get_today_open(parameters.get("enterprise-name"))
-
         return {
             "speech": speech,
             "displayText": speech,
@@ -157,7 +156,6 @@ def makeWebhookResult(data):
 
 
 if __name__ == '__main__':
-    print(ystockquote.get_volume('GOOG'))
     port = int(os.getenv('PORT', 5000))
     print("Starting app on port %d" % port)
     app.run(debug=False, port=port, host='0.0.0.0')
