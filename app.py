@@ -89,12 +89,12 @@ def processRequest(req):
         enterprise2 = parameters.get("enterprise-name2")
         marketCap1 = ystockquote.get_market_cap(enterprise1)
         marketCap2 = ystockquote.get_market_cap(enterprise2)
-        volume1 = ystockquote.get_volume(enterprise1)
-        volume2 = ystockquote.get_volume(enterprise2)
+        #volume1 = ystockquote.get_volume(enterprise1)
+        #volume2 = ystockquote.get_volume(enterprise2)
         #ebitda1 = ystockquote.get_ebitda(enterprise1)
         #ebitda2 = ystockquote.get_ebitda(enterprise2)
         speech = enterprise1 + " " + enterprise2 + " \n market capitalization: " + marketCap1 + " " + marketCap2
-        + " \n volume: " + str(volume1) + " " + str(volume2)
+        #+ " \n volume: " + str(volume1) + " " + str(volume2)
         #+ " \n market capitalization: " + str(ebitda1) + " " + str(ebitda2)
         return {
             "speech": speech,
@@ -157,6 +157,7 @@ def makeWebhookResult(data):
 
 
 if __name__ == '__main__':
+    print(ystockquote.get_volume('GOOG'))
     port = int(os.getenv('PORT', 5000))
     print("Starting app on port %d" % port)
     app.run(debug=False, port=port, host='0.0.0.0')
