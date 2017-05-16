@@ -82,6 +82,22 @@ def processRequest(req):
             # "contextOut": [],
             "source": "ai-project"
         }
+    elif req.get("result").get("action") == "compareEnterprisesAction":
+        result = req.get("result")
+        parameters = result.get("parameters")
+        enterprise1 = parameters.get("enterprise-name1")
+        enterprise2 = parameters.get("enterprise-name2")
+        speech = enterprise1 + " market capitalization: " + ystockquote.get_market_cap(enterprise1)
+        + " ebitda: " + ystockquote.get_ebitda(parameters.get(enterprise1)) + " volume: " + ystockquote.get_volume(enterprise1)
+        + " " + enterprise2 + " market capitalization: " + ystockquote.get_market_cap(enterprise2)
+        + " ebitda: " + ystockquote.get_ebitda(parameters.get(enterprise2)) + " volume: " + ystockquote.get_volume(enterprise2)
+        return {
+            "speech": speech,
+            "displayText": speech,
+            # "data": data,
+            # "contextOut": [],
+            "source": "ai-project"
+        }
     else:
         return {}
 
