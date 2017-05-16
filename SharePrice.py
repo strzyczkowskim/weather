@@ -1,8 +1,8 @@
-from yahoo_finance import Share, Currency
+import ystockquote
+
 class SharePrice:
     def __init__(self ,enterpriseCode):
-        s = Share(enterpriseCode)
-        self.price = s.get_price()
+        self.price = ystockquote.get_today_open(enterpriseCode)
 
     def showAnswer(self):
-        return "This is the price: " , self.price
+        return "This is the current price: " , self.price
