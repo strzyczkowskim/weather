@@ -51,8 +51,8 @@ def processRequest(req):
     elif req.get("result").get("action") == "sharePriceAction":
         result = req.get("result")
         parameters = result.get("parameters")
-        singleShare = SharePrice(parameters.get("enterprise-name"))
-        speech = singleShare.showAnswer()
+        #singleShare = SharePrice(parameters.get("enterprise-name"))
+        speech = ystockquote.get_today_open(parameters.get("enterprise-name"))
 
         return {
             "speech": speech,
