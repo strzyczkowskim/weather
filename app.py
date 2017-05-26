@@ -6,8 +6,9 @@ install_aliases()
 
 from urllib.parse import urlparse, urlencode
 from urllib.request import urlopen, Request
+from pprint import pprint
 from urllib.error import HTTPError
-from SharePrice import SharePrice
+from yahoo_finance import Share
 
 import json
 import os
@@ -51,7 +52,7 @@ def processRequest(req):
     elif req.get("result").get("action") == "sharePriceAction":
         result = req.get("result")
         parameters = result.get("parameters")
-        speech = "This is a current price: " + ystockquote.get_today_open(parameters.get("enterprise-name"))
+        speech = "This is a current share price: " + ystockquote.get_today_open(parameters.get("enterprise-name"))
         return {
             "speech": speech,
             "displayText": speech,
@@ -62,7 +63,7 @@ def processRequest(req):
     elif req.get("result").get("action") == "getEbitdaAction":
         result = req.get("result")
         parameters = result.get("parameters")
-        speech = "This is a ebitda of enterprise: " + ystockquote.get_ebitda(parameters.get("enterprise-name"))
+        speech = "This is an ebitda of an enterprise: " + ystockquote.get_ebitda(parameters.get("enterprise-name"))
         return {
             "speech": speech,
             "displayText": speech,
@@ -88,13 +89,7 @@ def processRequest(req):
         enterprise2 = parameters.get("enterprise-name2")
         marketCap1 = ystockquote.get_market_cap(enterprise1)
         marketCap2 = ystockquote.get_market_cap(enterprise2)
-        #volume1 = ystockquote.get_volume(enterprise1)
-        #volume2 = ystockquote.get_volume(enterprise2)
-        #ebitda1 = ystockquote.get_ebitda(enterprise1)
-        #ebitda2 = ystockquote.get_ebitda(enterprise2)
         speech = enterprise1 + " " + enterprise2 + " \n market capitalization: " + marketCap1 + " " + marketCap2
-        #+ " \n volume: " + str(volume1) + " " + str(volume2)
-        #+ " \n market capitalization: " + str(ebitda1) + " " + str(ebitda2)
         return {
             "speech": speech,
             "displayText": speech,
