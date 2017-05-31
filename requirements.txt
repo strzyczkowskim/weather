@@ -1,2 +1,4 @@
-Flask==0.10.1
+Flask==0.12.1
 future==0.16.0
+yahoo-finance==1.4.0
+ystockquote==0.2.5

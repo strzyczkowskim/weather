@@ -6,10 +6,13 @@ install_aliases()
 
 from urllib.parse import urlparse, urlencode
 from urllib.request import urlopen, Request
+from pprint import pprint
 from urllib.error import HTTPError
+from yahoo_finance import Share
 
 import json
 import os
+import ystockquote
 
 from flask import Flask
 from flask import request
@@ -36,17 +39,66 @@ def webhook():
 
 
 def processRequest(req):
-    if req.get("result").get("action") != "yahooWeatherForecast":
+    if req.get("result").get("action") == "yahooWeatherForecast":
+        baseurl = "https://query.yahooapis.com/v1/public/yql?"
+        yql_query = makeYqlQuery(req)
+        if yql_query is None:
+            return {}
+        yql_url = baseurl + urlencode({'q': yql_query}) + "&format=json"
+        result = urlopen(yql_url).read()
+        data = json.loads(result)
+        res = makeWebhookResult(data)
+        return res
+    elif req.get("result").get("action") == "sharePriceAction":
+        result = req.get("result")
+        parameters = result.get("parameters")
+        speech = "This is a current share price: " + ystockquote.get_today_open(parameters.get("enterprise-name"))
+        return {
+            "speech": speech,
+            "displayText": speech,
+            # "data": data,
+            # "contextOut": [],
+            "source": "ai-project"
+        }
+    elif req.get("result").get("action") == "getEbitdaAction":
+        result = req.get("result")
+        parameters = result.get("parameters")
+        speech = "This is an ebitda of an enterprise: " + ystockquote.get_ebitda(parameters.get("enterprise-name"))
+        return {
+            "speech": speech,
+            "displayText": speech,
+            # "data": data,
+            # "contextOut": [],
+            "source": "ai-project"
+        }
+    elif req.get("result").get("action") == "getMarketCapAction":
+        result = req.get("result")
+        parameters = result.get("parameters")
+        speech = "This is a market capitalization of enterprise: " + ystockquote.get_market_cap(parameters.get("enterprise-name"))
+        return {
+            "speech": speech,
+            "displayText": speech,
+            # "data": data,
+            # "contextOut": [],
+            "source": "ai-project"
+        }
+    elif req.get("result").get("action") == "compareEnterprisesAction":
+        result = req.get("result")
+        parameters = result.get("parameters")
+        enterprise1 = parameters.get("enterprise-name1")
+        enterprise2 = parameters.get("enterprise-name2")
+        marketCap1 = ystockquote.get_market_cap(enterprise1)
+        marketCap2 = ystockquote.get_market_cap(enterprise2)
+        speech = enterprise1 + " " + enterprise2 + " \n market capitalization: " + marketCap1 + " " + marketCap2
+        return {
+            "speech": speech,
+            "displayText": speech,
+            # "data": data,
+            # "contextOut": [],
+            "source": "ai-project"
+        }
+    else:
         return {}
-    baseurl = "https://query.yahooapis.com/v1/public/yql?"
-    yql_query = makeYqlQuery(req)
-    if yql_query is None:
-        return {}
-    yql_url = baseurl + urlencode({'q': yql_query}) + "&format=json"
-    result = urlopen(yql_url).read()
-    data = json.loads(result)
-    res = makeWebhookResult(data)
-    return res
 
 
 def makeYqlQuery(req):
@@ -83,7 +135,6 @@ def makeWebhookResult(data):
         return {}
 
     # print(json.dumps(item, indent=4))
-
     speech = "Today in " + location.get('city') + ": " + condition.get('text') + \
              ", the temperature is " + condition.get('temp') + " " + units.get('temperature')
 
@@ -95,13 +146,11 @@ def makeWebhookResult(data):
         "displayText": speech,
         # "data": data,
         # "contextOut": [],
-        "source": "apiai-weather-webhook-sample"
+        "source": "ai-project"
     }
 
 
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
-
     print("Starting app on port %d" % port)
-
     app.run(debug=False, port=port, host='0.0.0.0')
